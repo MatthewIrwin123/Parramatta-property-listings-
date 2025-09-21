@@ -1,0 +1,29 @@
+name: Weekly Parramatta Listings
+
+on:
+  schedule:
+    - cron: '0 20 * * 1'  # Every Monday 20:00 UTC (~Tuesday morning Sydney)
+  workflow_dispatch: # allow manual trigger too
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run script
+        run: python parramatta_listings.py
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: Parramatta-Listings
+          path: Parramatta_Listings.pdf
