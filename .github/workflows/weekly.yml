@@ -2,9 +2,9 @@ name: Weekly Property Listings
 
 on:
   schedule:
-    # Every Monday at 11pm UTC (9am AEST, Sydney winter time)
+    # Every Monday at 11pm UTC = 9am AEST (Sydney winter)
     - cron: "0 23 * * MON"
-  workflow_dispatch: # allows manual runs
+  workflow_dispatch: # manual trigger allowed
 
 jobs:
   build:
@@ -29,8 +29,14 @@ jobs:
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
           RAPIDAPI_HOST: ${{ secrets.RAPIDAPI_HOST }}
+          # Optional: set other search vars here:
           SEARCH_SUBURB: Parramatta
           SEARCH_STATE: NSW
+          SEARCH_MAX_PRICE: "500000"
+          SEARCH_MIN_BEDS: "1"
+          SEARCH_MAX_BEDS: "2"
+          SEARCH_MIN_CARSPACES: "1"
+          SEARCH_LIMIT: "40"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v3
